@@ -27,8 +27,8 @@
             <div class="project_view">
               <h2 class="pj_num">01/<span>WEB</span></h2>
               <ul class="server_menu ">
-                <li><a class="site_link" href="https://geulhangariproject.herokuapp.com/" target="_blank">VIEW SITE<span>→</span></a></li>
-                <li><a class="site_link" href="https://velog.io/@y_chungah96/%EC%BD%94%EB%93%9C%EB%A6%AC%EB%B7%B0" target="_blank">CODE REVIEW<span>→</span></a></li>
+                <li><a class="site_link" href="#" target="_blank">VIEW SITE<span>→</span></a></li>
+                <li><a class="site_link" href="#" target="_blank">CODE REVIEW<span>→</span></a></li>
                 <li><a class="site_link" href="https://github.com/yoonchungah/projectgeulhangari.git" target="_blank">GITHUB<span>→</span></a></li>
               </ul>
             </div>
@@ -56,7 +56,7 @@
               <h2 class="pj_num">02/<span>WEB</span></h2>
               <ul class="server_menu ">
                 <li><a class="site_link" href="https://eriproject.herokuapp.com/" target="_blank">VIEW SITE<span>→</span></a></li>
-                <li><a class="site_link" href="https://velog.io/@y_chungah96/%EC%97%90%EB%A6%AC%EC%A0%9C%EB%A1%A0" target="_blank">CODE REVIEW<span>→</span></a></li>
+                <li><a class="site_link" href="#" target="_blank">CODE REVIEW<span>→</span></a></li>
                 <li><a class="site_link" href="https://github.com/yoonchungah/project1216.git" target="_blank">GITHUB<span>→</span></a></li>
               </ul>
             </div>
@@ -84,7 +84,7 @@
               <h2 class="pj_num">03/<span>WEB</span></h2>
               <ul class="server_menu ">
                 <li><a class="site_link" href="https://teambogoproject.herokuapp.com/" target="_blank">VIEW SITE<span>→</span></a></li>
-                <li><a class="site_link" href="https://velog.io/@y_chungah96/%EC%9E%A5%EC%9A%B1%EC%A7%84-%EB%AF%B8%EC%88%A0%EA%B4%80" target="_blank">CODE REVIEW<span>→</span></a></li>
+                <li><a class="site_link" href="#" target="_blank">CODE REVIEW<span>→</span></a></li>
                 <li><a class="site_link" href="https://github.com/yoonchungah/bogo.git" target="_blank">GITHUB<span>→</span></a></li>
               </ul>
             </div>
@@ -183,7 +183,6 @@ import {onMounted}  from 'vue'
   export default{
     setup(){
       onMounted(() => {
-        let minWidth = 800;
         let projectBox = document.querySelectorAll('.project_box'); 
         let siteLink = document.querySelectorAll('.site_link');
 
@@ -204,20 +203,23 @@ import {onMounted}  from 'vue'
             }
           }
           function resizeWidth2(){
-          // projectBox[j].classList.remove("pj_active");
           for(let j=0; j<projectBox.length; j++){
-            projectBox[j].removeEventListener('mouseenter',()=>{
+            projectBox[j].addEventListener('click',(target)=>{
+              if(target.currentTarget.classList.contains("pj_active")){
+                target.currentTarget.addEventListener('click',(target)=>{
+                  target.currentTarget.classList.toggle("pj_active")
+                })
+              }
+              for(let k=0; k<projectBox.length; k++){
+                projectBox[k].classList.remove("pj_active");
+              }
               projectBox[j].classList.add("pj_active");
+              
+              
               for(let k=0; k<siteLink.length; k++){
                 siteLink[k].classList.add("lk_active");
               }
-            }),
-            projectBox[j].removeEventListener('mouseleave',()=>{
-              projectBox[j].classList.remove("pj_active");
-              for(let k=0; k<siteLink.length; k++){
-                siteLink[k].classList.remove("lk_active");
-                }
-              })
+            })
         
         }
       }
@@ -225,17 +227,18 @@ import {onMounted}  from 'vue'
 
       
       window.addEventListener('resize', function() {
-        if( minWidth < window.innerWidth ){
+        if( window.innerWidth > 800 ){
           resizeWidth();
-        } else if (minWidth >= window.innerWidth) {
+        } else if ( window.innerWidth < 800 ) {
+          console.log(window.innerWidth)
           resizeWidth2();
         }
       });
 
       window.onload = function (){
-        if( minWidth < window.innerWidth ){
+        if( window.innerWidth > 800  ){
           resizeWidth();
-        } else if (minWidth >= window.innerWidth){
+        } else if ( window.innerWidth < 800 ){
           resizeWidth2();
         }
       }
